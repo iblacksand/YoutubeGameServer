@@ -37,7 +37,7 @@ function dataSent(data){
             users[index][1] = _.escape(data.data.substring(5));
             console.log("Name set");
             if(oldname){
-            io.emit('updateChatServer', "<i>" + oldstring + " change their name to " + _.escape(data.data.substring(5)) + "</o><br>" );
+            io.emit('updateChatServer', "<i>" + oldstring + " changed their name to " + _.escape(data.data.substring(5)) + "</o><br>" );
             }
             else{
                 io.emit('updateChatServer', "<b>Welcome " + _.escape(data.data.substring(5)) + " to the chatroom!</b><br>")
@@ -62,23 +62,6 @@ function findId(id, _callback){
     }
     _callback(-1);
     return;
-}
-
-var entityMap = {
-  '&': '&amp;',
-  '<': '&lt;',
-  '>': '&gt;',
-  '"': '&quot;',
-  "'": '&#39;',
-  '/': '&#x2F;',
-  '`': '&#x60;',
-  '=': '&#x3D;'
-};
-
-function escapeHtml (string) {
-  return String(string).replace(/[&<>"'`=\/]/g, function (s) {
-    return entityMap[s];
-  });
 }
 
 // setInterval(() => io.emit('time', new Date().toTimeString()), 10000);
