@@ -1,6 +1,8 @@
 <html>
     <head>
+        <script src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.slim.min.js'></script>
         <script src='/socket.io/socket.io.js'></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css"/>
         <script>
             var socket = io();
 
@@ -14,8 +16,11 @@
             socket.on('time', function(data) {
                 addMessage(data);
             });
-            socket.on('updateChat', (newline) => {
+            socket.on('updateChatServer', (newline) => {
               document.getElementById('chatbox').innerHTML += newline;
+            })
+            socket.on('updateChat', (newline) => {
+              $('#chatbox').append(newline)
             })
             socket.on('error', console.error.bind(console));
             socket.on('message', console.log.bind(console));
@@ -41,11 +46,11 @@
     <body>
         <ul id='messages'></ul>
 
-      <textarea id="textbox">Stuff</textarea>
+      <textarea id="textbox" class="textarea">Stuff</textarea>
 
-      <button onclick="send()">Send</button>
+      <button onclick="send()" class="button">Send</button>
 
-      <input id="name"></input><button onclick="setName()">Set Name</button>
+      <input id="name" class="input"></input><button onclick="setName()">Set Name</button>
 
 
       <p id='chatbox'></p>
