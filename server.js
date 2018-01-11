@@ -27,9 +27,20 @@ function dataSent(data){
     if(data.data.substring(0,4) == "name"){
         console.log("new name for Id: " + data.data.substring(5));
         findId(data.id, (index) =>{
+            let oldname = false;
+            let oldstring = "";
+            if(users[index][1] !== ""){
+                oldname = true;
+                oldstring = users[index][1];
+            }
             users[index][1] = data.data.substring(5);
             console.log("Name set");
-
+            if(oldname){
+            io.emit('updateChat', "<i>" + oldstring + " change their name to " + data.data.substring(5) + "</o><br>" );
+            }
+            else{
+                io.emit('updateChat', "<b>Welcome " + data.data.substring(5) + " to the chatroom!</b><br>")
+            }
         })
     }
     else if(data.data.substring(0,4) == "chat"){
