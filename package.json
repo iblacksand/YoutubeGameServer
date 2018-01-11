@@ -1,0 +1,19 @@
+{
+  "name": "YoutubeGameServer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": "6.2.0"
+  },
+  "dependencies": {
+    "express": "4.16.2",
+    "socket.io": "2.0.4"
+  }
+}

@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <script src='/socket.io/socket.io.js'></script>
+        <script>
+            var socket = io();
+
+            var id;
+            socket.on('welcome', function(data) {
+                addMessage(data.message);
+                id = data.id;
+                // Respond with a message including this clients' id sent from the server
+                socket.emit('i am client', {data: 'foo!', id: data.id});
+            });
+            socket.on('time', function(data) {
+                addMessage(data);
+            });
+            socket.on('updateChat', (newline) => {
+              document.getElementById('chatbox').innerHTML += newline;
+            })
+            socket.on('error', console.error.bind(console));
+            socket.on('message', console.log.bind(console));
+
+            function addMessage(message) {
+                var text = document.createTextNode(message),
+                    el = document.createElement('li'),
+                    messages = document.getElementById('messages');
+
+                el.appendChild(text);
+                messages.appendChild(el);
+            }
+            function send()
+            {
+              console.log("sending");
+              socket.emit('sendData', {data: 'chat:' + document.getElementById('textbox').value, id: id});
+            }
+            function setName(){
+              socket.emit('sendData', {data: 'name:' + document.getElementById('name').value, id: id});
+            }
+        </script>
+    </head>
+    <body>
+        <ul id='messages'></ul>
+
+      <textarea id="textbox">Stuff</textarea>
+
+      <button onclick="send()">Send</button>
+
+      <input id="name"></input><button onclick="setName()">Set Name</button>
+
+
+      <p id='chatbox'></p>
+    </body>
+  </html>   
