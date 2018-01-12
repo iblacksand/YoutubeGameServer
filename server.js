@@ -36,7 +36,6 @@ io.on('connection', (socket) => {
     socket.on('i am host',() =>
     { host = socket;
         socket.on('disconnectPlayer', (index) => {players[index].disconnect();
-        nextIndex--;
         })
         roomcode = Math.floor(Math.random()*10000);
         socket.emit('roomcreated', {
