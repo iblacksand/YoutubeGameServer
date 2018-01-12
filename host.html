@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Boom</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.slim.min.js'></script>
+    <script src='/socket.io/socket.io.js'></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css" />
+    <script>
+        var socket = io();
+        var roomcode;
+        var id;
+        socket.on('welcome', function (data) {
+            // addMessage(data.message);
+            id = data.id;
+            
+            // Respond with a message including this clients' id sent from the server
+            socket.emit('i am host', {
+                data: 'foo!',
+                id: data.id
+            });
+        });
+        socket.on('testHostConnection', (data) => console.log(data));
+        socket.on('roomcreated', (data) =>{roomcode = data.message;
+            $("#title").text("Room code: " + roomcode);})
+        socket.on('newPlayer', (data) => {
+            console.log(data);
+            console.log("new player");
+            console.log("index: " + data.index)
+            $("#users").append('<article class="message" id="card'+ data.index +'"><div class="message-header"><p>' + data.name + '</p><button class="delete" onclick=disconnect(' + data.index + ') aria-label="delete"></button></div></article>')
+        })
+
+        function disconnect(index){
+            console.log('disconnect at index ' + index);
+            socket.emit('disconnectPlayer', index);
+            $('#card' + index).remove();
+        }
+    </script>
+</head>
+
+<body>
+
+        <h1 class="title is-1" id="title"></h1>
+    <div class="columns">
+        <div class="column">
+        </div>
+        <div class="column is-one-quarter" id="users">
+                <h2 class="title is-2">Players </h2>
+        </div>
+        <div class="column">
+        </div>
+    </div><br>
+
+    <textarea class="textarea" id="list"></textarea>
+    
+</body>
+
+</html>
