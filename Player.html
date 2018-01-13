@@ -17,6 +17,7 @@
             window.location.reload(true); 
         })
         var id;
+        socket.on('badRoomCode',(data) => $("#roomError").show());
         socket.on('welcome', function (data) {
             // addMessage(data.message);
             id = data.id;
@@ -48,10 +49,21 @@
                 <input class="input" id="name">name</input>
                 <input class="input" id="room" type="number">room number</input>
                 <button class="button" onclick="joinroom()" >Join Room</button>
-               
+        <article class="message is-danger" id="roomError">
+            <div class="message-header">
+                <p>Error: Room Code</p>
+                <button class="delete" aria-label="delete" onclick="$('#roomError').hide()"></button>
+            </div>
+            <div class="message-body">
+                The room code is not correct. Make sure you entered the right code.
+            </div>
+            </article>
         </div>
         <div class="column">
         </div>
+        <script>
+            $("#roomError").hide();
+        </script>
     </div>
     
 </body>

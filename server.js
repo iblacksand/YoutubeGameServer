@@ -53,7 +53,7 @@ io.on('connection', (socket) => {
         socket.emit("joinedRoom", "success");
         }
         else{
-            console.log("bad room code");
+            socket.emit("badRoomCode", "bad room code");
         }
     })
     socket.on('sendData', (data) => {
