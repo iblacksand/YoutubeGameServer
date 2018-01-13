@@ -3,7 +3,9 @@
         <script src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.slim.min.js'></script>
         <script src='/socket.io/socket.io.js'></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css"/>
-        <script>
+        <script> 
+
+           
             var socket = io();
 
             var id;
@@ -45,6 +47,10 @@
     </head>
     <body>
         <ul id='messages'></ul>
+        <audio controls playBackRate id="song">
+            <source src="./test.mp3" type="audio/mpeg">
+                Not supported.
+        </audio>
 
       <textarea id="textbox" class="textarea">Stuff</textarea>
 
@@ -54,5 +60,9 @@
 
 
       <p id='chatbox'></p>
+      <script>
+       var v = document.getElementById("song");
+       v.playbackRate = 4;
+    </script>
     </body>
   </html>   

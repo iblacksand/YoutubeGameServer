@@ -60,7 +60,13 @@ io.on('connection', (socket) => {
         dataSent(data);
 })});
 
-
+function downloadVideoAndPlay(){
+const fs = require('fs');
+const ytdl = require('ytdl-core');
+ 
+ytdl('http://www.youtube.com/watch?v=A02s8omM_hI')
+  .pipe(fs.createWriteStream('audio.mp3'));
+}
 
 function dataSent(data){
     console.log(data.data.substring(0,4));
