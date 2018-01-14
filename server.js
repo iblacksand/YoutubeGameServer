@@ -74,6 +74,7 @@ ytdl(url).pipe(fs.createWriteStream('video.flv'));
 setTimeout(() => {
     command = ffmpeg('video.flv').format('mp3').saveToFile('audiotest.mp3');
     setTimeout(() => {Audio.load('./audiotest.mp3').then(audio =>{
+        audio.rate = 4;
         audio
           .reverse()
           .save('editedaudio.wav');
