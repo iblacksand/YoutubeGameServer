@@ -7,13 +7,13 @@ const path = require('path');
 const _ = require('./underscore-min.js');
 var router = express.Router();
 var app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const INDEX = path.join(__dirname, 'index.html');
 const HOST = path.join(__dirname, 'host.html');
 var ffmpeg = require('fluent-ffmpeg');
 var command = ffmpeg();
 
-downloadVideoAndPlay();
+// downloadVideoAndPlay();
 var users = [];
 express().use(express.static('public'));
 
@@ -60,22 +60,29 @@ io.on('connection', (socket) => {
             socket.emit("badRoomCode", "bad room code");
         }
     })
+    socket.on('getAudio', (data) => {
+        downloadVideoAndPlay(data.url);
+    })
     socket.on('sendData', (data) => {
         dataSent(data);
 })});
 
-function downloadVideoAndPlay(){
+function downloadVideoAndPlay(url){
     const fs = require('fs');
 const ytdl = require('ytdl-core');
-ytdl('http://www.youtube.com/watch?v=A02s8omM_hI').pipe(fs.createWriteStream('video.flv'));
+ytdl(url).pipe(fs.createWriteStream('video.flv'));
 setTimeout(() => {
     command = ffmpeg('video.flv').format('mp3').saveToFile('audiotest.mp3');
     setTimeout(() => {Audio.load('./audiotest.mp3').then(audio =>{
         audio
           .reverse()
-          .save('sample-edited.mp3');
+          .save('editedaudio.wav');
           console.log('after');
-  })}, 2000);
+          setTimeout(() => {
+            ffmpeg('editedaudio.wav').format('mp3').saveToFile('editedaudio.mp3')
+            setTimeout(() => {io.emit("newAudio", "new Audio"); console.log("serving new audio");}, 1000);
+          },2000)
+  })}, 3000);
       
 }, 5000);
   

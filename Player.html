@@ -35,7 +35,11 @@
             console.log("joining room: " + document.getElementById("room").value);
             socket.emit('joinRoom', {room: document.getElementById("room").value, name: document.getElementById("name").value})
         }
-        
+        socket.on("newAudio", () => {
+            document.getElementById("audio").load();
+            document.getElementById("audio").play();
+            console.log("playing audio");
+        })
     </script>
 </head>
 
@@ -61,6 +65,9 @@
         </div>
         <div class="column">
         </div>
+        <audio id="audio">
+            <source src="editedaudio.mp3" type="audio/mpeg">.
+          </audio> 
         <script>
             $("#roomError").hide();
         </script>

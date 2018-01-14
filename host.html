@@ -23,6 +23,7 @@
                 id: data.id
             });
         });
+
         socket.on('testHostConnection', (data) => console.log(data));
         socket.on('roomcreated', (data) =>{roomcode = data.message;
             $("#title").text("Room code: " + roomcode);})
@@ -37,6 +38,10 @@
             console.log('disconnect at index ' + index);
             socket.emit('disconnectPlayer', index);
             $('#card' + index).remove();
+        }
+        function newAudio(){
+            console.log("value: " +  document.getElementById("url").value);
+            socket.emit("getAudio", {url: document.getElementById("url").value});
         }
     </script>
 </head>
@@ -54,7 +59,9 @@
         </div>
     </div><br>
 
-    <textarea class="textarea" id="list"></textarea>
+    <input class="input" type="text" id="url" value="Youtube URL"></input>
+    
+    <button class="button" onclick="newAudio()">Submit</button>
     
 </body>
 
