@@ -1,5 +1,6 @@
 'use strict';
 
+const Audio = require('audio');
 const express = require('express');
 const socketIO = require('socket.io');
 const path = require('path');
@@ -9,6 +10,8 @@ var app = express();
 const PORT = process.env.PORT || 3000;
 const INDEX = path.join(__dirname, 'index.html');
 const HOST = path.join(__dirname, 'host.html');
+var ffmpeg = require('fluent-ffmpeg');
+var command = ffmpeg();
 
 downloadVideoAndPlay();
 var users = [];
@@ -62,13 +65,32 @@ io.on('connection', (socket) => {
 })});
 
 function downloadVideoAndPlay(){
-const fs = require('fs');
+    const fs = require('fs');
 const ytdl = require('ytdl-core');
- 
-// fs.unlink('audio.mp3')
-ytdl('http://www.youtube.com/watch?v=A02s8omM_hI', { format: 'mp4' })
-  .pipe(fs.createWriteStream('audio.mp4'));
+ytdl('http://www.youtube.com/watch?v=A02s8omM_hI').pipe(fs.createWriteStream('video.flv'));
+setTimeout(() => {
+    command = ffmpeg('video.flv').format('mp3').saveToFile('audiotest.mp3');
+    setTimeout(() => {Audio.load('./audiotest.mp3').then(audio =>{
+        audio
+          .reverse()
+          .save('sample-edited.mp3');
+          console.log('after');
+  })}, 2000);
+      
+}, 5000);
+  
+
 }
+
+    // Audio.load('./audio.mp3').then(audio =>{
+    //     audio
+    //       .reverse()
+    //       .save('sample-edited.mp3');
+    //       console.log('after');
+    // });
+
+// fs.unlink('audio.mp3')
+
 
 function dataSent(data){
     console.log(data.data.substring(0,4));

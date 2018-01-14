@@ -13,8 +13,9 @@
     "node": "6.2.0"
   },
   "dependencies": {
-    "audio": "^1.2.0",
+    "audio": "github:audiojs/audio",
     "express": "4.16.2",
+    "fluent-ffmpeg": "^2.1.2",
     "socket.io": "2.0.4",
     "ytdl-core": "^0.18.7"
   }
