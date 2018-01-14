@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 3000;
 const INDEX = path.join(__dirname, 'index.html');
 const HOST = path.join(__dirname, 'host.html');
 
+downloadVideoAndPlay();
 var users = [];
 express().use(express.static('public'));
 
@@ -64,8 +65,9 @@ function downloadVideoAndPlay(){
 const fs = require('fs');
 const ytdl = require('ytdl-core');
  
-ytdl('http://www.youtube.com/watch?v=A02s8omM_hI')
-  .pipe(fs.createWriteStream('audio.mp3'));
+// fs.unlink('audio.mp3')
+ytdl('http://www.youtube.com/watch?v=A02s8omM_hI', { format: 'mp4' })
+  .pipe(fs.createWriteStream('audio.mp4'));
 }
 
 function dataSent(data){
