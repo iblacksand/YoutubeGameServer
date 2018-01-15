@@ -31,7 +31,7 @@ const io = socketIO(server);
 var host;
 var players = [];
 var roomcode = 0;
-
+var roomcode = 0;
 var nextIndex = 0;
 io.on('connection', (socket) => {
     socket.emit('welcome', { message: 'Welcome!', id: socket.id });
