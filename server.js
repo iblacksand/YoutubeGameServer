@@ -12,7 +12,7 @@ const INDEX = path.join(__dirname, 'index.html');
 const HOST = path.join(__dirname, 'host.html');
 var ffmpeg = require('fluent-ffmpeg');
 var command = ffmpeg();
-
+const { exec } = require('child_process');
 // downloadVideoAndPlay();
 var users = [];
 express().use(express.static('public'));
@@ -73,18 +73,17 @@ const ytdl = require('ytdl-core');
 ytdl(url).pipe(fs.createWriteStream('video.flv'));
 setTimeout(() => {
     command = ffmpeg('video.flv').format('mp3').saveToFile('audiotest.mp3');
-    setTimeout(() => {Audio.load('./audiotest.mp3').then(audio =>{
-        audio
-          .reverse()
-          .save('editedaudio.wav');
-          console.log('after');
-          setTimeout(() => {
-            ffmpeg('editedaudio.wav').format('mp3').saveToFile('editedaudio.mp3')
-            setTimeout(() => {io.emit("newAudio", "new Audio"); console.log("serving new audio");}, 1000);
-          },2000)
-  })}, 3000);
-      
-}, 5000);
+    setTimeout(()=>{(exec('sox -V audiotest.mp3 editedaudio.mp3 reverse', (err, stdout, stderr) => {
+        if (err) {
+          // node couldn't execute the command
+          return;
+        }
+        io.emit("newAudio", "newAudio.")
+        // the *entire* stdout and stderr (buffered)
+        console.log(`stdout: ${stdout}`);
+        console.log(`stderr: ${stderr}`);
+      }))},2000);
+  }, 3000);
   
 
 }
