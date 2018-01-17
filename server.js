@@ -47,7 +47,7 @@ io.on('connection', (socket) => {
         host = socket;
         host.on('disconnect', () => host = null);
         socket.join('main');
-        socket.on('disconnectPlayer', (index) => {players[index].disconnect();
+        socket.on('disconnectPlayer', (index) => {players[index].emit("disconnectFromServer", "");
         })
         roomcode = Math.floor(Math.random()*10000);
         socket.emit('roomcreated', {
@@ -56,7 +56,6 @@ io.on('connection', (socket) => {
         });
     });
     socket.on('disconnect', () =>{
-
     })
     socket.on('joinRoom', (data) =>{
         console.log("room code: " + roomcode + "\n code provided: " + data.room)
