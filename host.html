@@ -16,34 +16,39 @@
         socket.on('welcome', function (data) {
             // addMessage(data.message);
             id = data.id;
-            
+
             // Respond with a message including this clients' id sent from the server
             socket.emit('i am host', {
                 data: 'foo!',
                 id: data.id
             });
         });
-        socket.on('hostTaken', () => {$("#hostError").show();
-        setTimeout(() => {location.href = "/Player.html";$(document.body).html("If you see this page, your browser won't be supported or our scripts were blocked. You may continue to  <a href=\"/player.html\">/Player.hmtl</a>. ")}, 3000)})
+        socket.on('hostTaken', () => { 
+            $("#otherbody").remove();           
+$("#hostError").show();
+            setTimeout(() => { location.href = "/Player.html"; $(document.body).html("If you see this page, your browser won't be supported or our scripts were blocked. You may continue to  <a href=\"/player.html\">/Player.hmtl</a>. ") }, 3000)
+        })
 
         socket.on('testHostConnection', (data) => console.log(data));
-        socket.on('roomcreated', (data) =>{roomcode = data.message;
-            $("#title").text("Room code: " + roomcode);})
+        socket.on('roomcreated', (data) => {            
+roomcode = data.message;
+            $("#title").text("Room code: " + roomcode);
+        })
         socket.on('newPlayer', (data) => {
             console.log(data);
             console.log("new player");
             console.log("index: " + data.index)
-            $("#users").append('<article class="message" id="card'+ data.index +'"><div class="message-header"><p>' + data.name + '</p><button class="delete" onclick=disconnect(' + data.index + ') aria-label="delete"></button></div></article>')
+            $("#users").append('<article class="message" id="card' + data.index + '"><div class="message-header"><p>' + data.name + '</p><button class="delete" onclick=disconnect(' + data.index + ') aria-label="delete"></button></div></article>')
         })
 
-        function disconnect(index){
+        function disconnect(index) {
             console.log('disconnect at index ' + index);
             socket.emit('disconnectPlayer', index);
             $('#card' + index).remove();
         }
-        function newAudio(){
-            console.log("value: " +  document.getElementById("url").value);
-            socket.emit("getAudio", {url: document.getElementById("url").value});
+        function newAudio() {
+            console.log("value: " + document.getElementById("url").value);
+            socket.emit("getAudio", { url: document.getElementById("url").value });
         }
         socket.on("playAudio", () => {
             document.getElementById("audio").playbackRate = 1;
@@ -62,28 +67,30 @@
             <button class="delete" aria-label="delete" onclick="$('#roomError').hide()"></button>
         </div>
         <div class="message-body">
-            There is already a host for the game. You will be redirected to the player page shortly. 
+            There is already a host for the game. You will be redirected to the player page shortly.
         </div>
-        </article>
-
+    </article>
+    <div id="otherbody">
         <h1 class="title is-1" id="title"></h1>
-    <div class="columns">
-        <div class="column">
-        </div>
-        <div class="column is-one-quarter" id="users">
+        <div class="columns">
+            <div class="column">
+            </div>
+            <div class="column is-one-quarter" id="users">
                 <h2 class="title is-2">Players </h2>
+            </div>
+            <div class="column">
+            </div>
         </div>
-        <div class="column">
-        </div>
-    </div><br>
+        <br>
 
-    <input class="input" type="text" id="url" value="Youtube URL"></input>
-    
-    <button class="button" onclick="newAudio()">Submit</button>
-    
-    <audio id="audio">
-        <source src="editedaudio.mp3" type="audio/mpeg">.
-      </audio> 
+        <input class="input" type="text" id="url" value="Youtube URL"></input>
+
+        <button class="button" onclick="newAudio()">Submit</button>
+
+        <audio id="audio">
+            <source src="editedaudio.mp3" type="audio/mpeg">.
+        </audio>
+    </div>
     <script>$("#hostError").hide()</script>
 </body>
 
