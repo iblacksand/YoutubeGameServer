@@ -26,7 +26,7 @@
         socket.on('hostTaken', () => { 
             $("#otherbody").remove();           
 $("#hostError").show();
-            setTimeout(() => { location.href = "/Player.html"; $(document.body).html("If you see this page, your browser won't be supported or our scripts were blocked. You may continue to  <a href=\"/player.html\">/Player.hmtl</a>. ") }, 3000)
+            setTimeout(() => { location.href = "/Player.html"; $(document.body).html("If you see this page, your browser won't be supported or our scripts were blocked. You may continue to  <a href=\"/player.html\">/Player.hmtl</a>. ") }, 7000)
         })
 
         socket.on('testHostConnection', (data) => console.log(data));
