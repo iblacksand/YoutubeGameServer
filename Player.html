@@ -66,11 +66,17 @@
         </div>
         <div class="column">
         </div>
+
+        <input class="input" type="text" id="url" value="Youtube URL"></input>
+    
+    <button class="button" onclick="newAudio()" id="urlSubmit">Submit</button>
         <audio id="audio">
             <source src="editedaudio.mp3" type="audio/mpeg">.
           </audio> 
         <script>
             $("#roomError").hide();
+            $("#url").hide();
+            $("#urlSubmit").hide();
         </script>
     </div>
     

@@ -42,6 +42,7 @@ io.on('connection', (socket) => {
     socket.on('i am host',() =>
     { 
         if(host != null){
+            socket.emit("hostTaken", "host is taken");
             return;
         }
         host = socket;

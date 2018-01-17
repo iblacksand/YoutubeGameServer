@@ -23,7 +23,8 @@
                 id: data.id
             });
         });
-        socket.on('hostTaken', () => {window.location.href = "https://serene-earth-95389.herokuapp.com/Player.html"})
+        socket.on('hostTaken', () => {$("#hostError").show();
+        setTimeout(() => {location.href = "/Player.html";$(document.body).html("If you see this page, your browser won't be supported or our scripts were blocked. You may continue to  <a href=\"/player.html\">/Player.hmtl</a>. ")}, 3000)})
 
         socket.on('testHostConnection', (data) => console.log(data));
         socket.on('roomcreated', (data) =>{roomcode = data.message;
@@ -55,6 +56,16 @@
 
 <body>
 
+    <article class="message is-danger" id="hostError">
+        <div class="message-header">
+            <p>Error: Host Taken</p>
+            <button class="delete" aria-label="delete" onclick="$('#roomError').hide()"></button>
+        </div>
+        <div class="message-body">
+            There is already a host for the game. You will be redirected to the player page shortly. 
+        </div>
+        </article>
+
         <h1 class="title is-1" id="title"></h1>
     <div class="columns">
         <div class="column">
@@ -73,6 +84,7 @@
     <audio id="audio">
         <source src="editedaudio.mp3" type="audio/mpeg">.
       </audio> 
+    <script>$("#hostError").hide()</script>
 </body>
 
 </html>
