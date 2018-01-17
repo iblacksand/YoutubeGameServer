@@ -1,5 +1,7 @@
 # Youtube Game Server
 
+This is a project to learn about sockets. There are going to be many issues.
+
 This is the backend for a server for 'The Youtube Game'.
 
 One player chooses a song clip from YouTube. The other players have to guess the song, but it is played in reverse.
