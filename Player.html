@@ -35,7 +35,7 @@
             console.log("joining room: " + document.getElementById("room").value);
             socket.emit('joinRoom', {room: document.getElementById("room").value, name: document.getElementById("name").value})
         }
-        socket.on("newAudio", () => {
+        socket.on("playAudio", () => {
             document.getElementById("audio").playbackRate = 1;
             document.getElementById("audio").load();
             document.getElementById("audio").play();

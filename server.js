@@ -1,3 +1,5 @@
+import { disconnect } from 'cluster';
+
 'use strict';
 
 const Audio = require('audio');
@@ -38,7 +40,12 @@ io.on('connection', (socket) => {
     users.push([socket.id, ""]);
     socket.on('i am client', console.log);
     socket.on('i am host',() =>
-    { host = socket;
+    { 
+        if(host != null){
+            return;
+        }
+        host = socket;
+        socket.join('main');
         socket.on('disconnectPlayer', (index) => {players[index].disconnect();
         })
         roomcode = Math.floor(Math.random()*10000);
@@ -47,10 +54,14 @@ io.on('connection', (socket) => {
             id: socket.id
         });
     });
+    socket.on('disconnect', () =>{
+
+    })
     socket.on('joinRoom', (data) =>{
         console.log("room code: " + roomcode + "\n code provided: " + data.room)
         if(data.room == (roomcode+"")){
             console.log("adding player");
+            socket.join('main');
         io.emit('newPlayer', {name: data.name, index: nextIndex});
         nextIndex++;
         players.push(socket);
@@ -78,7 +89,7 @@ setTimeout(() => {
           // node couldn't execute the command
           return;
         }
-        io.emit("newAudio", "newAudio.")
+        io.in('main').emit("playAudio", "newAudio.");
         // the *entire* stdout and stderr (buffered)
         console.log(`stdout: ${stdout}`);
         console.log(`stderr: ${stderr}`);

@@ -44,6 +44,12 @@
             console.log("value: " +  document.getElementById("url").value);
             socket.emit("getAudio", {url: document.getElementById("url").value});
         }
+        socket.on("playAudio", () => {
+            document.getElementById("audio").playbackRate = 1;
+            document.getElementById("audio").load();
+            document.getElementById("audio").play();
+            console.log("playing audio");
+        })
     </script>
 </head>
 
