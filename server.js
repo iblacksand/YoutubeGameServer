@@ -45,6 +45,7 @@ io.on('connection', (socket) => {
             return;
         }
         host = socket;
+        host.on('disconnect', () => host = null);
         socket.join('main');
         socket.on('disconnectPlayer', (index) => {players[index].disconnect();
         })
