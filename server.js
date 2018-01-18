@@ -1,6 +1,3 @@
-import { platform } from "os";
-
-
 'use strict';
 var Deque = require("double-ended-queue");
 
