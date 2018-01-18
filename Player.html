@@ -34,8 +34,8 @@
         function joinroom(){
             console.log("joining room: " + document.getElementById("room").value);
             socket.emit('joinRoom', {room: document.getElementById("room").value, name: document.getElementById("name").value})
-        }
-        socket.on("yourturn", () => {$("#urlcontainer").html('<input class="input" type="text" id="url" value="Youtube URL"></input><button class="button" onclick="newAudio()">Submit</button>');})
+        } 
+        socket.on("yourturn", () => {$("#urlcontainer").html('<input class="input" type="text" id="url" value="Youtube URL"></input><button class="button" onclick="newAudio()">Submit</button>');console.log('my turn')})
         socket.on("playAudio", () => {
             document.getElementById("audio").pause();
             document.getElementById("audio").playbackRate = 1;
