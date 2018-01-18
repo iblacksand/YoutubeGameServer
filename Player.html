@@ -44,9 +44,10 @@
             console.log("playing audio");
         })
         function newAudio() {
-            $("#urlcontainer").html("");
+            
             console.log("value: " + document.getElementById("url").value);
             socket.emit("getAudio", { url: document.getElementById("url").value });
+            $("#urlcontainer").html("");
         }
     </script>
 </head>
@@ -74,7 +75,11 @@
         <div class="column">
         </div>
 
-        <div id="urlcontainer"></div>
+        <br>
+
+        <center><div id="urlcontainer"></div></center>
+
+
         <audio id="audio">
             <source src="editedaudio.mp3" type="audio/mpeg">.
           </audio> 

@@ -1,7 +1,6 @@
 'use strict';
 var Deque = require("double-ended-queue");
 
-const Audio = require('audio');
 const express = require('express');
 const socketIO = require('socket.io');
 const path = require('path');
@@ -77,6 +76,7 @@ io.on('connection', (socket) => {
     })
     socket.on('getAudio', (data) => {
         let poppedSocket = playerQ.pop();
+        console.log('another person\'s turn');
         playerQ.push(poppedSocket);
         poppedSocket.emit("yourturn", "");
         downloadVideoAndPlay(data.url);
@@ -89,14 +89,18 @@ function downloadVideoAndPlay(url){
     const fs = require('fs');
 const ytdl = require('ytdl-core');
 ytdl(url).pipe(fs.createWriteStream('video.flv'));
+console.log("youtube video downloaded")
 setTimeout(() => {
     command = ffmpeg('video.flv').format('mp3').saveToFile('audiotest.mp3');
+    console.log("saving mp3")
     setTimeout(()=>{(exec('sox -V audiotest.mp3 editedaudio.mp3 reverse', (err, stdout, stderr) => {
-        if (err) {
-          // node couldn't execute the command
-          return;
-        }
+        console.log("reversing");
+        // if (err) {
+        //   // node couldn't execute the command
+        //   return;
+        // }
         io.in('main').emit("playAudio", "newAudio.");
+        console.log("playing audio");
         // the *entire* stdout and stderr (buffered)
         console.log(`stdout: ${stdout}`);
         console.log(`stderr: ${stderr}`);
