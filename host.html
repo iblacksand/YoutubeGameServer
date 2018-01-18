@@ -51,6 +51,7 @@ roomcode = data.message;
             socket.emit("getAudio", { url: document.getElementById("url").value });
         }
         socket.on("playAudio", () => {
+            document.getElementById("audio").pause();
             document.getElementById("audio").playbackRate = 1;
             document.getElementById("audio").load();
             document.getElementById("audio").play();
