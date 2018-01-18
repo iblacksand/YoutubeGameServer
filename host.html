@@ -52,7 +52,7 @@ roomcode = data.message;
             socket.emit("getAudio", { url: document.getElementById("url").value });
             $("#urlcontainer").html("");
         }
-        socket.on('yourTurn', () => {
+        socket.on('yourturn', () => {
             $("#urlcontainer").html('<input class="input" type="text" id="url" value="Youtube URL"></input><button class="button" onclick="newAudio()">Submit</button>');
             console.log('my turn');
         })
