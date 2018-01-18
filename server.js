@@ -45,7 +45,7 @@ io.on('connection', (socket) => {
             socket.emit("hostTaken", "host is taken");
             return;
         }
-        playerQ.push(socket);
+        playerQ.push(host);
         host = socket;
         host.on('disconnect', () => host = null);
         socket.join('main');
@@ -75,7 +75,7 @@ io.on('connection', (socket) => {
         }
     })
     socket.on('getAudio', (data) => {
-        let poppedSocket = playerQ.pop();
+        let poppedSocket = playerQ.shift();
         console.log('another person\'s turn');
         playerQ.push(poppedSocket);
         poppedSocket.emit("yourturn", "");
