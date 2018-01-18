@@ -1,5 +1,8 @@
+import { platform } from "os";
+
 
 'use strict';
+var Deque = require("double-ended-queue");
 
 const Audio = require('audio');
 const express = require('express');
@@ -17,6 +20,8 @@ const { exec } = require('child_process');
 // downloadVideoAndPlay();
 var users = [];
 express().use(express.static('public'));
+
+var playerQ = new Deque();
 
 app.use('/', express.static(__dirname + '/'));
 const server = app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
@@ -44,6 +49,7 @@ io.on('connection', (socket) => {
             socket.emit("hostTaken", "host is taken");
             return;
         }
+        playerQ.push(socket);
         host = socket;
         host.on('disconnect', () => host = null);
         socket.join('main');
@@ -64,6 +70,7 @@ io.on('connection', (socket) => {
             socket.join('main');
         io.emit('newPlayer', {name: data.name, index: nextIndex});
         nextIndex++;
+        playerQ.push(socket);
         players.push(socket);
         socket.emit("joinedRoom", "success");
         }
@@ -72,6 +79,9 @@ io.on('connection', (socket) => {
         }
     })
     socket.on('getAudio', (data) => {
+        let poppedSocket = playerQ.pop();
+        playerQ.push(poppedSocket);
+        poppedSocket.emit("yourturn", "");
         downloadVideoAndPlay(data.url);
     })
     socket.on('sendData', (data) => {

@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "audio": "github:audiojs/audio",
+    "double-ended-queue": "^2.1.0-0",
     "express": "4.16.2",
     "fluent-ffmpeg": "^2.1.2",
     "socket.io": "2.0.4",

@@ -35,6 +35,7 @@
             console.log("joining room: " + document.getElementById("room").value);
             socket.emit('joinRoom', {room: document.getElementById("room").value, name: document.getElementById("name").value})
         }
+        socket.on("yourturn", () => {$("#urlcontainer").html('<input class="input" type="text" id="url" value="Youtube URL"></input><button class="button" onclick="newAudio()">Submit</button>');})
         socket.on("playAudio", () => {
             document.getElementById("audio").pause();
             document.getElementById("audio").playbackRate = 1;
@@ -42,6 +43,11 @@
             document.getElementById("audio").play();
             console.log("playing audio");
         })
+        function newAudio() {
+            $("#urlcontainer").html("");
+            console.log("value: " + document.getElementById("url").value);
+            socket.emit("getAudio", { url: document.getElementById("url").value });
+        }
     </script>
 </head>
 
@@ -68,9 +74,7 @@
         <div class="column">
         </div>
 
-        <input class="input" type="text" id="url" value="Youtube URL"></input>
-    
-    <button class="button" onclick="newAudio()" id="urlSubmit">Submit</button>
+        <div id="urlcontainer"></div>
         <audio id="audio">
             <source src="editedaudio.mp3" type="audio/mpeg">.
           </audio> 

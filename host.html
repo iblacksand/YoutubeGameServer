@@ -47,9 +47,13 @@ roomcode = data.message;
             $('#card' + index).remove();
         }
         function newAudio() {
+            $("#urlcontainer").html("");
             console.log("value: " + document.getElementById("url").value);
             socket.emit("getAudio", { url: document.getElementById("url").value });
         }
+        socket.on('yourTurn', () => {
+            $("#urlcontainer").html('<input class="input" type="text" id="url" value="Youtube URL"></input><button class="button" onclick="newAudio()">Submit</button>');
+        })
         socket.on("playAudio", () => {
             document.getElementById("audio").pause();
             document.getElementById("audio").playbackRate = 1;
@@ -84,10 +88,8 @@ roomcode = data.message;
         </div>
         <br>
 
-        <input class="input" type="text" id="url" value="Youtube URL"></input>
-
-        <button class="button" onclick="newAudio()">Submit</button>
-
+        <div id="urlcontainer"><input class="input" type="text" id="url" value="Youtube URL"></input><button class="button" onclick="newAudio()">Submit</button></div>
+        
         <audio id="audio">
             <source src="editedaudio.mp3" type="audio/mpeg">.
         </audio>
