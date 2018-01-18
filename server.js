@@ -45,7 +45,7 @@ io.on('connection', (socket) => {
             socket.emit("hostTaken", "host is taken");
             return;
         }
-        playerQ.push(host);
+        playerQ.push(socket);
         host = socket;
         host.on('disconnect', () => host = null);
         socket.join('main');
