@@ -1,3 +1,5 @@
+import { disconnect } from "cluster";
+
 'use strict';
 var Deque = require("double-ended-queue");
 
@@ -35,6 +37,12 @@ var players = [];
 var roomcode = 0;
 var roomcode = 0;
 var nextIndex = 0;
+
+function disconnectAll(){
+    io.in('main').emit('disconnectFromServer');
+    players = [];
+    playerQ = new Deque();
+}
 io.on('connection', (socket) => {
     socket.emit('welcome', { message: 'Welcome!', id: socket.id });
     users.push([socket.id, ""]);
@@ -47,7 +55,9 @@ io.on('connection', (socket) => {
         }
         playerQ.push(socket);
         host = socket;
-        host.on('disconnect', () => host = null);
+        host.on('disconnect', () => {host = null;
+        disconnectAll();
+        });
         socket.join('main');
         socket.on('disconnectPlayer', (index) => {players[index].emit("disconnectFromServer", "");
         })
