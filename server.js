@@ -75,7 +75,11 @@ io.on('connection', (socket) => {
         }
     })
     socket.on('getAudio', (data) => {
+
         let poppedSocket = playerQ.shift();
+        while(!poppedSocket.connected){
+            poppedSocket = playerQ.shift();
+        }
         console.log('another person\'s turn');
         playerQ.push(poppedSocket);
         poppedSocket.emit("yourturn", "");
