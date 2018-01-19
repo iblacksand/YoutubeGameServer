@@ -1,5 +1,3 @@
-import { disconnect } from "cluster";
-
 'use strict';
 var Deque = require("double-ended-queue");
 
